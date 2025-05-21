@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Step 1: Update & upgrade system
+apt update && apt upgrade -y
+
+# Step 2: Run install script
+bash <(curl -Ls https://raw.githubusercontent.com/userrtm/marzban-node-install/main/install.sh)
+
+# Step 3: Automatically write the certificate
+cat <<EOF > /var/lib/marzban-node/ssl_client_cert.pem
+-----BEGIN CERTIFICATE-----
+MIIEnDCCAoQCAQAwDQYJKoZIhvcNAQENBQAwEzERMA8GA1UEAwwIR296YXJnYWgw
+IBcNMjUwNTAyMTc0MTE0WhgPMjEyNTA0MDgxNzQxMTRaMBMxETAPBgNVBAMMCEdv
+emFyZ2FoMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAldviwtR8i2w7
+xZl54WDapz4WSPMxNmKyu8vzOoEMy0d9XSR5p9BaP1x6uS55hYg0eC+KBZdN1jwi
+S2dl1o4XV8J1j2XzM3RENPAMSXh1vrGTOzN+UoFOilWmb7mUMPJUAfhRTK8e4diC
+pKzuMQDmCEhgq+APbkcDGIy2gRPNwZg1ABM/O65kqULr4f0jb3COfPDMHxaA5idi
+8BfJOQuN0euual7U45zrs+Rwv8gizDu+00aqHwg20/oSNldg7x4Odlzqn2+lVVqc
+DlRAuwHHzaFoNo3DiE3ebvlJpfl4ouQX3P9izY0uEbFgMiXwH/Rxzi/mX/ee1KVo
+1EjI1VyLrP6OFDTid5HZf2tWwCP9CQ9knfsNWah9USkvAAnT+sMIKZluqTwqSXtY
+rbldFn3Lon8dADXTuU4v6OFPkEJntSAa3QlSuMZnZz8MKKdOrZPOVjkHE5eWkvuQ
+Pz45yiiFw0xX6urs9JLjjI3AjpUKdwAzChE5CGCAnl/ib/5OdWm8OXjTRddBgIw6
+PWEHCyOIXq1qGKxoYezleQmCzi+2QvdtuF3Wuea0AXMlSz1+knz6eTbtmae5ECTB
+iKUPjmB6IuoiAROy9HzolBGKuUN+YcKXXR9MX0KWtPN1HNcSpG1cFYIIri5p1rBT
+GrIYes7M5Td0TsSzoKCy8LarcCXoKnsCAwEAATANBgkqhkiG9w0BAQ0FAAOCAgEA
+ZlHyuGvrldyioireOzEQD6DkiQy8YRLHAECh5MIJn41TLMhV+3nkMMMjGr04NPXe
+Z8BDWmK1oe78YKHyl73W7/a4jNLEd0D2HdhTJ8/YA0F+fUH9Ff6LO/Tv05LfD9pp
+4ivleRM8m5YuSBfMhMVSjTJtkwsAv/H5fzfcyz8rhdP+NTqHS7N9WkdFG8w5iUj0
+/Rqs8uNaLLtEuF4GFsgZht4KpLpdgEwGKBnr6A0isFIPnzZNIM5WOun8kDzRo6IK
+qJzBSIWVYV5wypbHXwMRtaKm+9MaKHDER/ZYsCuwcANx7RfFrmLzAPQkrxTpBLDS
+EWPKZtbgYLGb5AvBQixCJ7a/Ib8OEFMjWb8PGPKyxmpehHtPNScNd2BFByHWIgSt
+chcAr92rJzbEQQp5EaCCgzrJBWLsfEgf5tH7NUFEle4NTO0Am5b1FgKrXy8gWqQc
+JSjuO/bXWQa/5gM/jwUr+ciDGHKjmFJZPs2DJy8p1jKi2EyjidZxRFEQ0mn/RjAD
+SMM6RItbaFVBYD8kzsWZ5FRNsETQ9BNyP+zxaWHjJm/xAvLy+h/L/RWVceegPYzj
+G7/ii8fYZN8puniNBFOJSZJcA9fPArqnDgn/AME7kVxP9Lixgr3OQE34mD0ZppzF
+we7CXanILHixPFy5AI0G86k0aFuZtTnj9YD+aM+Oh60=
+-----END CERTIFICATE-----
+EOF
+
+# Step 4: Restart Docker
+cd ~/Mazban-node && docker compose restart
